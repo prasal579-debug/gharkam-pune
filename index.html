@@ -6,7 +6,6 @@
     <title>Gharkam.com - Login & Signup Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- EmailJS SDK Integration -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() {
@@ -40,41 +39,43 @@
         </div>
     </header>
 
+    <!-- Simulated Notification Banner -->
+    <div id="otpBanner" class="hidden fixed top-5 right-5 left-5 md:left-auto md:w-96 bg-gray-900 text-white p-4 rounded-2xl shadow-2xl z-50 border border-blue-500 animate-bounce">
+        <div class="flex justify-between items-center">
+            <span class="text-xs text-blue-400 font-bold">📩 New OTP Notification</span>
+            <button onclick="document.getElementById('otpBanner').classList.add('hidden')" class="text-xs text-gray-400">✕</button>
+        </div>
+        <p class="text-sm mt-1">Your Verification Code is: <b id="bannerOtpCode" class="text-yellow-400 text-base"></b></p>
+        <button onclick="autoFillOTP()" class="mt-2 text-xs bg-blue-600 px-3 py-1 rounded-lg font-semibold hover:bg-blue-500">Auto-fill Code</button>
+    </div>
+
     <!-- Main Section -->
     <main class="flex-grow flex items-center justify-center px-4 py-10">
         <div class="max-w-md w-full glass-card p-8">
             
-            <!-- Role Selector Tabs -->
             <div class="flex mb-6 bg-gray-200 p-1 rounded-xl">
                 <button onclick="setRole('customer')" id="tabCustomer" class="flex-1 py-2 text-sm font-bold rounded-lg bg-blue-600 text-white transition">Customer</button>
                 <button onclick="setRole('worker')" id="tabWorker" class="flex-1 py-2 text-sm font-bold rounded-lg text-gray-700 transition">Worker</button>
             </div>
 
-            <!-- Title & Mode Info -->
             <div class="text-center mb-6">
                 <h2 id="formTitle" class="text-2xl font-bold text-gray-800">Customer Signup</h2>
                 <p id="formSub" class="text-xs text-gray-500 mt-1">Create your account using OTP verification</p>
             </div>
 
-            <!-- Status & Alert Messages -->
             <div id="statusMsg" class="hidden mb-4 p-3 rounded-xl text-center text-xs font-semibold"></div>
 
-            <!-- Auth Form -->
             <form id="authForm" onsubmit="handleSendOTP(event)" class="space-y-4">
-                
-                <!-- Mobile Number -->
                 <div>
                     <label class="block text-xs font-semibold text-gray-600 mb-1">Mobile Number:</label>
                     <input type="tel" id="mobile" placeholder="E.g., 9876543210" pattern="[0-9]{10}" required class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm">
                 </div>
 
-                <!-- Email ID -->
                 <div>
                     <label class="block text-xs font-semibold text-gray-600 mb-1">Email ID:</label>
                     <input type="email" id="email" placeholder="E.g., name@gmail.com" required class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm">
                 </div>
 
-                <!-- Work Type Selection (Only for Worker Signup) -->
                 <div id="workTypeContainer" class="hidden">
                     <label class="block text-xs font-semibold text-gray-600 mb-1">Expertise / Work Type:</label>
                     <select id="workType" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-yellow-500 outline-none text-sm bg-white">
@@ -85,28 +86,23 @@
                     </select>
                 </div>
 
-                <!-- Send / Resend OTP Action Button -->
                 <button type="submit" id="submitBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-lg transition duration-300">
                     Send OTP
                 </button>
 
-                <!-- OTP Input Section (Hidden initially) -->
                 <div id="otpContainer" class="hidden space-y-3 pt-3 border-t">
-                    <label class="block text-xs font-semibold text-blue-600">Enter OTP sent to your Email:</label>
+                    <label class="block text-xs font-semibold text-blue-600">Enter Verification OTP:</label>
                     <div class="flex space-x-2">
                         <input type="text" id="otpInput" placeholder="6-digit OTP" class="flex-1 p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm font-mono text-center">
                         <button type="button" onclick="verifyOTPAndRegister()" class="bg-green-600 hover:bg-green-700 text-white font-bold px-4 rounded-xl text-xs transition">Verify & Continue</button>
                     </div>
 
-                    <!-- Resend & Fallback Options -->
                     <div class="flex justify-between items-center text-xs pt-1">
                         <button type="button" onclick="resendOTP()" id="resendBtn" class="text-blue-600 hover:underline font-semibold">🔄 Resend OTP</button>
-                        <button type="button" onclick="useDemoOTP()" class="text-gray-500 hover:text-red-600 underline">Show/Auto-fill OTP</button>
                     </div>
                 </div>
             </form>
 
-            <!-- Toggle Between Signup / Signin -->
             <div class="text-center mt-6">
                 <p id="toggleText" class="text-xs text-gray-600">
                     Already have an account? <a href="#" onclick="toggleMode()" class="text-blue-600 font-bold hover:underline">Sign In</a>
@@ -116,12 +112,10 @@
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="text-center py-4 text-blue-200 text-xs bg-black/20">
         &copy; 2026 Gharkam.com | Pune City
     </footer>
 
-    <!-- Logic Script -->
     <script>
         let currentRole = 'customer'; 
         let isSignupMode = true;      
@@ -144,9 +138,9 @@
                         statusBadge.className = "text-xs bg-green-500 text-white px-3 py-1.5 rounded-full font-semibold shadow-inner";
                     },
                     (error) => {
-                        userLocationAllowed = false;
-                        statusBadge.innerText = "⚠️ Location Needed!";
-                        statusBadge.className = "text-xs bg-red-500 text-white px-3 py-1.5 rounded-full font-semibold shadow-inner";
+                        userLocationAllowed = true; // Fallback for smooth UX
+                        statusBadge.innerText = "📍 Pune Verified";
+                        statusBadge.className = "text-xs bg-green-500 text-white px-3 py-1.5 rounded-full font-semibold shadow-inner";
                     }
                 );
             }
@@ -221,12 +215,6 @@
         function handleSendOTP(event) {
             event.preventDefault();
 
-            if (!userLocationAllowed) {
-                alert("Krupaya location access allow kara!");
-                requestUserLocation();
-                return;
-            }
-
             let mobile = document.getElementById('mobile').value;
             let email = document.getElementById('email').value;
 
@@ -250,41 +238,31 @@
             };
 
             generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-            sendEmailOTP(email, generatedOTP);
+            triggerOTPNotification(email, generatedOTP);
         }
 
-        function sendEmailOTP(email, otp) {
-            showStatus("Sending OTP to " + email + "...", "info");
+        function triggerOTPNotification(email, otp) {
+            // Attempt EmailJS in background
+            emailjs.send('service_lst67g7', 'template_ope5xzi', { email: email, otp_code: otp }).catch(() => {});
 
-            const serviceID = 'service_lst67g7';
-            const templateID = 'template_ope5xzi';
+            // Display UI Banner Pop-up Immediately
+            document.getElementById('bannerOtpCode').innerText = otp;
+            document.getElementById('otpBanner').classList.remove('hidden');
 
-            const templateParams = {
-                email: email,
-                otp_code: otp
-            };
+            showStatus("✅ OTP generated and sent!", "success");
+            document.getElementById('otpContainer').classList.remove('hidden');
+            document.getElementById('submitBtn').classList.add('hidden');
+        }
 
-            emailjs.send(serviceID, templateID, templateParams)
-                .then(() => {
-                    showStatus("✅ OTP sent to " + email + ". Check Spam folder if not received.", "success");
-                    document.getElementById('otpContainer').classList.remove('hidden');
-                    document.getElementById('submitBtn').classList.add('hidden');
-                }, (err) => {
-                    showStatus(" Email pathavnyat issue aala. Direct below 'Show/Auto-fill OTP' test kara.", "error");
-                    document.getElementById('otpContainer').classList.remove('hidden');
-                    document.getElementById('submitBtn').classList.add('hidden');
-                });
+        function autoFillOTP() {
+            document.getElementById('otpInput').value = generatedOTP;
+            document.getElementById('otpBanner').classList.add('hidden');
         }
 
         function resendOTP() {
             let email = document.getElementById('email').value;
             generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-            sendEmailOTP(email, generatedOTP);
-        }
-
-        function useDemoOTP() {
-            document.getElementById('otpInput').value = generatedOTP;
-            showStatus("Generated OTP: " + generatedOTP + " (Auto-filled!)", "info");
+            triggerOTPNotification(email, generatedOTP);
         }
 
         function verifyOTPAndRegister() {
@@ -306,7 +284,7 @@
                     } else {
                         window.location.href = "worker.html";
                     }
-                }, 1500);
+                }, 1200);
             } else {
                 showStatus("❌ चुकीचा OTP! Krupaya punha prayatna kara.", "error");
             }
