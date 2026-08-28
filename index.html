@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GharKam Pune - Trusted Home Repair & Maintenance Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #0052FF;
+            --primary-dark: #0A192F;
+            --text-main: #334155;
+            --text-muted: #64748B;
+            --bg-color: #F8FAFC;
+            --white: #FFFFFF;
+            --border-color: #E2E8F0;
+            --radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        header {
+            background: var(--white);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span {
+            color: var(--primary-dark);
+        }
+
+        nav a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--primary-blue);
+        }
+
+        .btn-login {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-login:hover {
+            background-color: #0040cc;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 5rem 5%;
+            background: var(--white);
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero h1 span {
+            color: var(--primary-blue);
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 2.5rem auto;
+        }
+
+        .search-box {
+            display: inline-flex;
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 0.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-box button {
+            background: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Services Section */
+        .services-container {
+            padding: 5rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: var(--text-muted);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 2rem;
+            text-align: left;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,82,255,0.08);
+            border-color: #cbd5e1;
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-link {
+            color: var(--primary-blue);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 3rem 5%;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        /* Modal for Email OTP Login */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 25, 47, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .modal-content h3 {
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .modal-content p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            font-size: 0.85rem;
+            margin-bottom: 0.4rem;
+            color: var(--text-main);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-blue);
+        }
+
+        .btn-full {
+            width: 100%;
+            background: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.25rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .otp-section {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">GharKam<span>.Pune</span></a>
+        <nav>
+            <a href="#services">Services</a>
+            <a href="#about">About Pune</a>
+            <a href="#contact">Contact</a>
+            <button class="btn-login" onclick="openModal()">Login / Sign Up</button>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Punyatli Gharchi Kamasathi<br><span>Trusted Karigar</span> Eka Click Var</h1>
+        <p>Light fitting, motor repairing, painting, furniture work & home cleaning services doorstep var milvudya.</p>
+        <div class="search-box">
+            <input type="text" placeholder="Search service e.g., Electrician, Painter, Maid...">
+            <button onclick="openModal()">Book Now</button>
+        </div>
+    </section>
+
+    <section class="services-container" id="services">
+        <div class="section-title">
+            <h2>Our Home Services in Pune</h2>
+            <p>Verified and professional experts for all your home maintenance needs</p>
+        </div>
+
+        <div class="grid">
+            <div class="card" onclick="openModal()">
+                <div class="card-icon">⚡</div>
+                <h3>Electrician & Light Fitting</h3>
+                <p>Wiring, switchboard repair, LED light fitting, ceiling fan installation & checks.</p>
+                <span class="card-link">Book Service &rarr;</span>
+            </div>
+
+            <div class="card" onclick="openModal()">
+                <div class="card-icon">⚙️</div>
+                <h3>Motor Repairing</h3>
+                <p>Water pump motor winding, repairing, automatic switch setup & plumbing checks.</p>
+                <span class="card-link">Book Service &rarr;</span>
+            </div>
+
+            <div class="card" onclick="openModal()">
+                <div class="card-icon">🎨</div>
+                <h3>Painting & Decor</h3>
+                <p>Interior wall painting, texture design, waterproofing, and exterior house painting.</p>
+                <span class="card-link">Book Service &rarr;</span>
+            </div>
+
+            <div class="card" onclick="openModal()">
+                <div class="card-icon">🪑</div>
+                <h3>Furniture & Carpenter</h3>
+                <p>Custom furniture making, door hinge repair, bed assembling & woodwork.</p>
+                <span class="card-link">Book Service &rarr;</span>
+            </div>
+
+            <div class="card" onclick="openModal()">
+                <div class="card-icon">🧹</div>
+                <h3>Home Maid & Cleaning</h3>
+                <p>Deep home cleaning, kitchen sanitization, sofa cleaning & regular maid assistance.</p>
+                <span class="card-link">Book Service &rarr;</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 GharKam.com (Pune). All rights reserved. Made with clean design & white space.</p>
+    </footer>
+
+    <!-- Modal for Email OTP Login -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <div id="step1">
+                <h3>Login / Sign Up</h3>
+                <p>Enter your email to receive a secure OTP.</p>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="userEmail" placeholder="name@example.com">
+                </div>
+                <button class="btn-full" onclick="sendOtp()">Send OTP</button>
+            </div>
+
+            <div id="step2" class="otp-section">
+                <h3>Verify OTP</h3>
+                <p>Enter the 4-digit code sent to <span id="displayEmail" style="font-weight:600; color:var(--primary-dark);"></span></p>
+                <div class="form-group">
+                    <label>Enter OTP (Mock: 1234)</label>
+                    <input type="text" id="otpInput" placeholder="1 2 3 4" maxlength="4">
+                </div>
+                <button class="btn-full" onclick="verifyOtp()">Verify & Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('authModal');
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+
+        function openModal() {
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            step1.style.display = 'block';
+            step2.style.display = 'none';
+            document.getElementById('userEmail').value = '';
+            document.getElementById('otpInput').value = '';
+        }
+
+        function sendOtp() {
+            const email = document.getElementById('userEmail').value;
+            if(!email || !email.includes('@')) {
+                alert('Krupaya valid email address taka.');
+                return;
+            }
+            document.getElementById('displayEmail').innerText = email;
+            step1.style.display = 'none';
+            step2.style.display = 'block';
+        }
+
+        function verifyOtp() {
+            const otp = document.getElementById('otpInput').value;
+            if(otp === '1234' || otp.length === 4) {
+                alert('Login Successful! Welcome to GharKam Pune.');
+                closeModal();
+            } else {
+                alert('Chukicha OTP ahe. Krupaya "1234" taka.');
+            }
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
