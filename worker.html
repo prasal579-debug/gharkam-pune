@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worker Dashboard - Gharkam.com</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #f3f4f6; }
+        .profile-header { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); }
+    </style>
+</head>
+<body class="text-gray-800 min-h-screen flex flex-col justify-between pb-16" onload="initWorkerPage()">
+
+    <div>
+        <!-- Profile Banner Header -->
+        <div class="profile-header text-white px-5 pt-6 pb-8 relative shadow-md">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h1 id="workerNameDisplay" class="text-xl font-bold tracking-wide">WORKER</h1>
+                    <p class="text-xs text-yellow-200 mt-0.5">DE ID : <span id="workerIdDisplay">32258019</span> | Type: <span id="workerTypeDisplay" class="font-bold underline">--</span></p>
+                </div>
+                <!-- Hero Badge -->
+                <div class="bg-black/25 backdrop-blur-md border border-white/20 px-3 py-1.5 rounded-2xl flex items-center space-x-1.5 shadow-inner">
+                    <span class="text-yellow-400 text-lg">⭐</span>
+                    <span class="text-xs font-bold tracking-wider">Hero</span>
+                </div>
+            </div>
+
+            <!-- Wallet & Logout -->
+            <div class="mt-4 flex justify-between items-center bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 text-sm">
+                <span>💰 Wallet Balance: <strong class="text-yellow-300">₹<span id="walletBalance">50</span></strong></span>
+                <a href="index.html" class="text-xs bg-red-600 hover:bg-red-700 px-2.5 py-1 rounded-lg text-white font-semibold">Logout</a>
+            </div>
+        </div>
+
+        <!-- Floating Quick Action Boxes -->
+        <div class="max-w-3xl mx-auto px-4 -mt-4">
+            <div class="grid grid-cols-4 gap-2 bg-white p-3 rounded-2xl shadow-lg border border-gray-100 text-center">
+                <div class="cursor-pointer hover:bg-gray-50 p-2 rounded-xl transition">
+                    <div class="text-xl mb-1">👤</div>
+                    <p class="text-[11px] font-semibold text-gray-700 leading-tight">My Profile</p>
+                </div>
+                <div class="cursor-pointer hover:bg-gray-50 p-2 rounded-xl transition">
+                    <div class="text-xl mb-1">💵</div>
+                    <p class="text-[11px] font-semibold text-gray-700 leading-tight">Floating Cash</p>
+                </div>
+                <div class="cursor-pointer hover:bg-gray-50 p-2 rounded-xl transition">
+                    <div class="text-xl mb-1">⚠️</div>
+                    <p class="text-[11px] font-semibold text-gray-700 leading-tight">Wrong Action</p>
+                </div>
+                <div class="cursor-pointer hover:bg-gray-50 p-2 rounded-xl transition">
+                    <div class="text-xl mb-1">💬</div>
+                    <p class="text-[11px] font-semibold text-gray-700 leading-tight">Message Center</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Section -->
+        <main class="max-w-3xl w-full mx-auto p-4 space-y-4 mt-2">
+
+            <!-- Control Panel / Duty Switch -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200">
+                <h2 class="text-sm font-bold text-gray-800 mb-3">Worker Duty & Area Control</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 items-center">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">Select Pune Area:</label>
+                        <select id="workerArea" class="w-full p-2.5 text-sm border rounded-xl focus:ring-2 focus:ring-yellow-500 outline-none bg-gray-50">
+                            <option value="">-- Area Nivada --</option>
+                            <option value="Swargate">Swargate</option>
+                            <option value="Katraj">Katraj</option>
+                            <option value="Shivajinagar">Shivajinagar</option>
+                            <option value="Kothrud">Kothrud</option>
+                            <option value="Hadapsar">Hadapsar</option>
+                        </select>
+                    </div>
+
+                    <div class="flex flex-col justify-end">
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">Duty Status:</label>
+                        <button id="dutyBtn" onclick="toggleDuty()" class="w-full py-2.5 px-4 text-sm rounded-xl font-bold transition duration-300 bg-red-500 text-white shadow-md">
+                            🔴 Duty OFF (Click ON)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Orders Section -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200">
+                <h3 class="text-sm font-bold text-gray-800 mb-3">Incoming Orders Matching Your Type</h3>
+
+                <!-- Searching State -->
+                <div id="searchingState" class="hidden text-center py-8 text-blue-600">
+                    <p class="text-3xl mb-1 animate-bounce">🔍</p>
+                    <p class="font-bold text-sm">Searching matching orders for your service type...</p>
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="text-center py-8 text-gray-400">
+                    <p class="text-3xl mb-1">📭</p>
+                    <p class="text-xs font-medium">Duty OFF aahe. Duty ON kelyanantar matching order disel.</p>
+                </div>
+
+                <!-- Real Matched Order Card -->
+                <div id="orderCard" class="hidden border border-blue-200 bg-blue-50 p-4 rounded-xl shadow-sm space-y-2">
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <span id="orderService" class="font-bold text-xs text-blue-700">⚡ Service: --</span>
+                        <span id="orderBudget" class="text-[10px] bg-green-600 text-white px-2 py-0.5 rounded-full font-semibold">Budget: ₹0</span>
+                    </div>
+                    <p class="text-xs text-gray-700"><strong>Area:</strong> <span id="orderAreaText">--</span></p>
+                    <p class="text-xs text-gray-700"><strong>Address:</strong> <span id="orderAddress">--</span></p>
+                    
+                    <div class="flex space-x-2 pt-1">
+                        <button onclick="acceptOrder()" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 text-xs rounded-lg transition">
+                            Accept & Open Maps
+                        </button>
+                        <button onclick="rejectOrder()" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 text-xs rounded-lg transition">
+                            Reject
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Ongoing Order Section -->
+                <div id="ongoingOrder" class="hidden border border-green-300 bg-green-50 p-4 rounded-xl shadow-sm space-y-2 mt-3">
+                    <h4 class="font-bold text-xs text-green-800">✅ Active Order in Progress</h4>
+                    <p class="text-[11px] text-gray-600">Kam puran zalyanantar khaliil button dabva (-₹10 wallet deduction).</p>
+                    <button onclick="completeOrder()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 text-xs rounded-xl transition shadow">
+                        Complete Work (-₹10 Wallet Deduction)
+                    </button>
+                </div>
+            </div>
+
+            <!-- List Options Menu -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 divide-y divide-gray-100 overflow-hidden text-sm">
+                <div class="p-3.5 flex justify-between items-center hover:bg-gray-50 cursor-pointer">
+                    <span class="font-medium text-gray-700">Refer & Earn</span>
+                    <span class="text-xs bg-green-100 text-green-700 font-bold px-2 py-0.5 rounded-md">Upto ₹20,000</span>
+                </div>
+                <div class="p-3.5 flex justify-between items-center hover:bg-gray-50 cursor-pointer">
+                    <span class="font-medium text-gray-700">Partner club</span>
+                    <span class="text-gray-400">&rsaquo;</span>
+                </div>
+                <div class="p-3.5 flex justify-between items-center hover:bg-gray-50 cursor-pointer">
+                    <span class="font-medium text-gray-700">Insurance</span>
+                    <span class="text-gray-400">&rsaquo;</span>
+                </div>
+                <div class="p-3.5 flex justify-between items-center hover:bg-gray-50 cursor-pointer">
+                    <span class="font-medium text-gray-700 flex items-center">Fleet manager meetings <span class="ml-2 text-[10px] bg-orange-500 text-white px-1.5 py-0.2 rounded font-bold">NEW</span></span>
+                    <span class="text-gray-400">&rsaquo;</span>
+                </div>
+                <div class="p-3.5 flex justify-between items-center hover:bg-gray-50 cursor-pointer">
+                    <span class="font-medium text-gray-700">Help & Support</span>
+                    <span class="text-gray-400">&rsaquo;</span>
+                </div>
+                <div class="p-3.5 flex justify-between items-center hover:bg-gray-50 cursor-pointer">
+                    <span class="font-medium text-gray-700">Ways to earn</span>
+                    <span class="text-gray-400">&rsaquo;</span>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-4 flex justify-around items-center z-50 text-xs">
+        <button class="flex flex-col items-center text-orange-600 font-bold">
+            <span class="text-lg">🏠</span>
+            <span>Home</span>
+        </button>
+        <button class="flex flex-col items-center text-gray-500 hover:text-orange-600">
+            <span class="text-lg">💰</span>
+            <span>Earnings</span>
+        </button>
+        <button class="flex flex-col items-center text-gray-500 hover:text-orange-600">
+            <span class="text-lg">📋</span>
+            <span>My Shifts</span>
+        </button>
+        <button class="flex flex-col items-center text-gray-500 hover:text-orange-600">
+            <span class="text-lg">👥</span>
+            <span>Refer</span>
+        </button>
+        <button class="flex flex-col items-center text-gray-500 hover:text-orange-600">
+            <span class="text-lg">🟧</span>
+            <span>More</span>
+        </button>
+    </nav>
+
+    <!-- Logic Script -->
+    <script>
+        let workerSession = null;
+        let isDutyOn = false;
+        let currentOrderData = null;
+
+        function initWorkerPage() {
+            let sessionJson = localStorage.getItem('current_user_session');
+            if (sessionJson) {
+                workerSession = JSON.parse(sessionJson);
+                document.getElementById('walletBalance').innerText = workerSession.balance ?? 50;
+                
+                if(workerSession.email) {
+                    let extractedName = workerSession.email.split('@')[0].toUpperCase();
+                    document.getElementById('workerNameDisplay').innerText = extractedName;
+                }
+                if(workerSession.mobile) {
+                    document.getElementById('workerIdDisplay').innerText = workerSession.mobile.slice(-6);
+                }
+                if(workerSession.workType) {
+                    document.getElementById('workerTypeDisplay').innerText = workerSession.workType;
+                } else {
+                    document.getElementById('workerTypeDisplay').innerText = "General";
+                }
+            } else {
+                alert("Krupaya pahile Login kara!");
+                window.location.href = "index.html";
+            }
+        }
+
+        function toggleDuty() {
+            const area = document.getElementById('workerArea').value;
+            if (!area && !isDutyOn) {
+                alert("Krupaya Duty ON karnyapurvi aapla area select kara!");
+                return;
+            }
+
+            if (workerSession.balance <= 0) {
+                alert("⚠️ Tumcha wallet balance 0 zala ahe! Krupaya recharge kara.");
+                return;
+            }
+
+            isDutyOn = !isDutyOn;
+            const btn = document.getElementById('dutyBtn');
+            const emptyState = document.getElementById('emptyState');
+            const searchingState = document.getElementById('searchingState');
+            const orderCard = document.getElementById('orderCard');
+
+            if (isDutyOn) {
+                btn.innerText = "🟢 Duty ON (Active)";
+                btn.className = "w-full py-2.5 px-4 text-sm rounded-xl font-bold transition duration-300 bg-green-600 text-white shadow-md";
+                emptyState.classList.add('hidden');
+                checkForOrders(area);
+            } else {
+                btn.innerText = "🔴 Duty OFF (Click ON)";
+                btn.className = "w-full py-2.5 px-4 text-sm rounded-xl font-bold transition duration-300 bg-red-500 text-white shadow-md";
+                searchingState.classList.add('hidden');
+                orderCard.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+            }
+        }
+
+        function checkForOrders(workerArea) {
+            let savedOrder = localStorage.getItem('gharkamActiveOrder');
+            const searchingState = document.getElementById('searchingState');
+            const orderCard = document.getElementById('orderCard');
+
+            if (savedOrder) {
+                currentOrderData = JSON.parse(savedOrder);
+                
+                // Area and WorkType validation matching check
+                let isAreaMatch = (currentOrderData.area === workerArea);
+                let isWorkTypeMatch = (!workerSession.workType || currentOrderData.service === workerSession.workType);
+
+                if (isAreaMatch && isWorkTypeMatch) {
+                    searchingState.classList.add('hidden');
+                    document.getElementById('orderService').innerText = "⚡ Service: " + currentOrderData.service;
+                    document.getElementById('orderBudget').innerText = "Budget: ₹" + currentOrderData.budget;
+                    document.getElementById('orderAreaText').innerText = currentOrderData.area;
+                    document.getElementById('orderAddress').innerText = currentOrderData.address;
+                    orderCard.classList.remove('hidden');
+                } else {
+                    searchingState.classList.remove('hidden');
+                    orderCard.classList.add('hidden');
+                    if(isDutyOn) {
+                        setTimeout(() => checkForOrders(workerArea), 3000);
+                    }
+                }
+            } else {
+                searchingState.classList.remove('hidden');
+                orderCard.classList.add('hidden');
+                if(isDutyOn) {
+                    setTimeout(() => checkForOrders(workerArea), 3000);
+                }
+            }
+        }
+
+        function acceptOrder() {
+            if (workerSession.balance < 10) {
+                alert("Wallet madhe apurya rakkaam mule order accept karta yenar nahi.");
+                return;
+            }
+
+            let customerAddress = currentOrderData ? currentOrderData.address : "Pune"; 
+            let mapUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(customerAddress);
+            
+            window.open(mapUrl, '_blank');
+            
+            document.getElementById('orderCard').classList.add('hidden');
+            document.getElementById('ongoingOrder').classList.remove('hidden');
+        }
+
+        function rejectOrder() {
+            document.getElementById('orderCard').classList.add('hidden');
+            document.getElementById('searchingState').classList.remove('hidden');
+            alert("Order reject keli.");
+        }
+
+        function completeOrder() {
+            if (workerSession.balance >= 10) {
+                workerSession.balance -= 10;
+                
+                document.getElementById('walletBalance').innerText = workerSession.balance;
+                
+                localStorage.setItem('current_user_session', JSON.stringify(workerSession));
+                localStorage.setItem('gharkam_user_' + workerSession.mobile, JSON.stringify(workerSession));
+
+                document.getElementById('ongoingOrder').classList.add('hidden');
+                document.getElementById('searchingState').classList.remove('hidden');
+                localStorage.removeItem('gharkamActiveOrder');
+                
+                alert("Kam successful complete zale! Wallet madhun ₹10 cut zale aahet. Navin balance: ₹" + workerSession.balance);
+            } else {
+                alert("Wallet balance insufficient!");
+            }
+        }
+    </script>
+</body>
+</html>
