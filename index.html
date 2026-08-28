@@ -10,8 +10,8 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() {
-            // EmailJS Public Key ethhe taka (emailjs.com varun milti)
-            emailjs.init("YOUR_PUBLIC_KEY"); 
+            // EmailJS Public Key Integrated
+            emailjs.init("PfAaODZ_GPiBPHvOi"); 
         })();
     </script>
     <style>
@@ -233,16 +233,13 @@
 
                 let selectedWorkType = (currentRole === 'worker') ? document.getElementById('workType').value : null;
 
-                // Temporary data save kara verification sathi
                 pendingUserData = { 
                     mobile, email, password, role: currentRole, balance: 50, 
                     workType: selectedWorkType 
                 };
 
-                // Generate 6 Digit OTP
                 generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
 
-                // EmailJS dware OTP Email var pathva
                 sendEmailOTP(email, generatedOTP);
 
             } else {
@@ -274,26 +271,23 @@
         }
 
         function sendEmailOTP(email, otp) {
-            // Service ID & Template ID EmailJS Dashboard madhun milel
-            const serviceID = 'YOUR_SERVICE_ID';
-            const templateID = 'YOUR_TEMPLATE_ID';
+            // Updated EmailJS Keys
+            const serviceID = 'service_lst67g7';
+            const templateID = 'template_ope5xzi';
 
             const templateParams = {
-                to_email: email,
+                email: email,
                 otp_code: otp
             };
 
-            // EmailJS API call
             emailjs.send(serviceID, templateID, templateParams)
                 .then(() => {
                     alert("OTP tumchya Email var pathavla ahe. Krupaya check kara!");
                     document.getElementById('otpContainer').classList.remove('hidden');
                     document.getElementById('submitBtn').classList.add('hidden');
                 }, (err) => {
-                    alert("Email pathavnyat adchan ali. Standard OTP test Mode Active!");
-                    console.log("OTP (Testing purpose):", otp);
-                    document.getElementById('otpContainer').classList.remove('hidden');
-                    document.getElementById('submitBtn').classList.add('hidden');
+                    alert("Email pathavnyat adchan ali. Error: " + JSON.stringify(err));
+                    console.log("Error details:", err);
                 });
         }
 
@@ -301,7 +295,6 @@
             let userEnteredOTP = document.getElementById('otpInput').value;
 
             if (userEnteredOTP === generatedOTP) {
-                // OTP verified! Registration finalize kara
                 localStorage.setItem('gharkam_user_' + pendingUserData.mobile, JSON.stringify(pendingUserData));
 
                 document.getElementById('successMsg').innerText = "🎉 Email verified & Account created! Now Sign In.";
