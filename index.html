@@ -1,451 +1,320 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="mr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GharKam Pune - Trusted Home Repair & Maintenance Services</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Gharkam.com - Login & Signup Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- EmailJS SDK Integration -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            // EmailJS Public Key ethhe taka (emailjs.com varun milti)
+            emailjs.init("YOUR_PUBLIC_KEY"); 
+        })();
+    </script>
     <style>
-        :root {
-            --primary-blue: #0052FF;
-            --primary-dark: #0A192F;
-            --text-main: #334155;
-            --text-muted: #64748B;
-            --bg-color: #F8FAFC;
-            --white: #FFFFFF;
-            --border-color: #E2E8F0;
-            --radius: 12px;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-        }
-
-        header {
-            background: var(--white);
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-blue);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .logo span {
-            color: var(--primary-dark);
-        }
-
-        nav a {
-            margin-left: 2rem;
-            text-decoration: none;
-            color: var(--text-main);
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        nav a:hover {
-            color: var(--primary-blue);
-        }
-
-        .btn-login {
-            background-color: var(--primary-blue);
-            color: var(--white);
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: var(--radius);
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .btn-login:hover {
-            background-color: #0040cc;
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 5rem 5%;
-            background: var(--white);
-            text-align: center;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            color: var(--primary-dark);
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-
-        .hero h1 span {
-            color: var(--primary-blue);
-        }
-
-        .hero p {
-            font-size: 1.15rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto 2.5rem auto;
-        }
-
-        .search-box {
-            display: inline-flex;
-            background: var(--white);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            padding: 0.5rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-            width: 100%;
-            max-width: 500px;
-        }
-
-        .search-box input {
-            flex: 1;
-            border: none;
-            padding: 0.75rem 1rem;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        .search-box button {
-            background: var(--primary-blue);
-            color: var(--white);
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        /* Services Section */
-        .services-container {
-            padding: 5rem 5%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-title h2 {
-            font-size: 2.2rem;
-            color: var(--primary-dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .section-title p {
-            color: var(--text-muted);
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .card {
-            background: var(--white);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            padding: 2rem;
-            text-align: left;
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,82,255,0.08);
-            border-color: #cbd5e1;
-        }
-
-        .card-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .card h3 {
-            font-size: 1.3rem;
-            color: var(--primary-dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .card-link {
-            color: var(--primary-blue);
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--primary-dark);
-            color: var(--white);
-            text-align: center;
-            padding: 3rem 5%;
-            margin-top: 4rem;
-        }
-
-        footer p {
-            color: #94a3b8;
-            font-size: 0.95rem;
-        }
-
-        /* Modal for Email OTP Login */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(10, 25, 47, 0.6);
-            backdrop-filter: blur(4px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: var(--white);
-            padding: 2.5rem;
-            border-radius: var(--radius);
-            width: 100%;
-            max-width: 400px;
+        body { font-family: 'Poppins', sans-serif; }
+        .hero-bg { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            position: relative;
-        }
-
-        .modal-content h3 {
-            color: var(--primary-dark);
-            margin-bottom: 0.5rem;
-            font-size: 1.5rem;
-        }
-
-        .modal-content p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.25rem;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 500;
-            font-size: 0.85rem;
-            margin-bottom: 0.4rem;
-            color: var(--text-main);
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        .form-group input:focus {
-            border-color: var(--primary-blue);
-        }
-
-        .btn-full {
-            width: 100%;
-            background: var(--primary-blue);
-            color: var(--white);
-            border: none;
-            padding: 0.75rem;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1.25rem;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-muted);
-        }
-
-        .otp-section {
-            display: none;
         }
     </style>
 </head>
-<body>
+<body class="hero-bg min-h-screen flex flex-col justify-between text-gray-800">
 
-    <header>
-        <a href="#" class="logo">GharKam<span>.Pune</span></a>
-        <nav>
-            <a href="#services">Services</a>
-            <a href="#about">About Pune</a>
-            <a href="#contact">Contact</a>
-            <button class="btn-login" onclick="openModal()">Login / Sign Up</button>
-        </nav>
+    <!-- Header -->
+    <header class="w-full py-4 px-6 flex justify-between items-center bg-white/10 backdrop-blur-md border-b border-white/20">
+        <div class="flex items-center space-x-3">
+            <div class="bg-white p-2 rounded-full shadow-lg font-bold text-blue-600 text-xl">🏠 GK</div>
+            <div>
+                <h1 class="text-white text-2xl font-bold">GHARKAM<span class="text-yellow-400">.com</span></h1>
+                <p class="text-xs text-blue-200">Pune City Services</p>
+            </div>
+        </div>
+        <div>
+            <span id="location-status" class="text-xs bg-yellow-400 text-gray-900 px-3 py-1.5 rounded-full font-semibold shadow-inner">📍 Checking Location...</span>
+        </div>
     </header>
 
-    <section class="hero">
-        <h1>Punyatli Gharchi Kamasathi<br><span>Trusted Karigar</span> Eka Click Var</h1>
-        <p>Light fitting, motor repairing, painting, furniture work & home cleaning services doorstep var milvudya.</p>
-        <div class="search-box">
-            <input type="text" placeholder="Search service e.g., Electrician, Painter, Maid...">
-            <button onclick="openModal()">Book Now</button>
+    <!-- Main Section -->
+    <main class="flex-grow flex items-center justify-center px-4 py-10">
+        <div class="max-w-md w-full glass-card p-8">
+            
+            <!-- Role Selector Tabs -->
+            <div class="flex mb-6 bg-gray-200 p-1 rounded-xl">
+                <button onclick="setRole('customer')" id="tabCustomer" class="flex-1 py-2 text-sm font-bold rounded-lg bg-blue-600 text-white transition">Customer</button>
+                <button onclick="setRole('worker')" id="tabWorker" class="flex-1 py-2 text-sm font-bold rounded-lg text-gray-700 transition">Worker</button>
+            </div>
+
+            <!-- Title & Mode Info -->
+            <div class="text-center mb-6">
+                <h2 id="formTitle" class="text-2xl font-bold text-gray-800">Customer Signup</h2>
+                <p id="formSub" class="text-xs text-gray-500 mt-1">Create your account to book home services</p>
+            </div>
+
+            <!-- Success Message Box -->
+            <div id="successMsg" class="hidden mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded-xl text-center text-sm font-semibold">
+                🎉 Account created successfully! Now you can Sign In.
+            </div>
+
+            <!-- Auth Form -->
+            <form id="authForm" onsubmit="handleAuth(event)" class="space-y-4">
+                
+                <!-- Mobile Number -->
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">Mobile Number:</label>
+                    <input type="tel" id="mobile" placeholder="E.g., 9876543210" pattern="[0-9]{10}" required class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                </div>
+
+                <!-- Email ID -->
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">Email ID:</label>
+                    <input type="email" id="email" placeholder="E.g., name@gmail.com" required class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">Password (Min 6 characters):</label>
+                    <input type="password" id="password" placeholder="********" required class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                </div>
+
+                <!-- Work Type Selection (Only for Worker Signup) -->
+                <div id="workTypeContainer" class="hidden">
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">Expertise / Work Type:</label>
+                    <select id="workType" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-yellow-500 outline-none text-sm bg-white">
+                        <option value="Cleaning">Cleaning</option>
+                        <option value="Electrician">Electrician</option>
+                        <option value="Plumbing">Plumbing</option>
+                        <option value="Painting">Painting</option>
+                    </select>
+                </div>
+
+                <!-- OTP Input Section (Hidden initially) -->
+                <div id="otpContainer" class="hidden space-y-2 pt-2 border-t">
+                    <label class="block text-xs font-semibold text-blue-600">Enter OTP sent to your Email:</label>
+                    <div class="flex space-x-2">
+                        <input type="text" id="otpInput" placeholder="Enter 6-digit OTP" class="flex-1 p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                        <button type="button" onclick="verifyOTPAndRegister()" class="bg-green-600 hover:bg-green-700 text-white font-bold px-4 rounded-xl text-xs transition">Verify OTP</button>
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <button type="submit" id="submitBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-lg transition duration-300">
+                    Sign Up
+                </button>
+            </form>
+
+            <!-- Toggle Between Signup / Signin -->
+            <div class="text-center mt-6">
+                <p id="toggleText" class="text-xs text-gray-600">
+                    Already have an account? <a href="#" onclick="toggleMode()" class="text-blue-600 font-bold hover:underline">Sign In</a>
+                </p>
+            </div>
+
         </div>
-    </section>
+    </main>
 
-    <section class="services-container" id="services">
-        <div class="section-title">
-            <h2>Our Home Services in Pune</h2>
-            <p>Verified and professional experts for all your home maintenance needs</p>
-        </div>
-
-        <div class="grid">
-            <div class="card" onclick="openModal()">
-                <div class="card-icon">⚡</div>
-                <h3>Electrician & Light Fitting</h3>
-                <p>Wiring, switchboard repair, LED light fitting, ceiling fan installation & checks.</p>
-                <span class="card-link">Book Service &rarr;</span>
-            </div>
-
-            <div class="card" onclick="openModal()">
-                <div class="card-icon">⚙️</div>
-                <h3>Motor Repairing</h3>
-                <p>Water pump motor winding, repairing, automatic switch setup & plumbing checks.</p>
-                <span class="card-link">Book Service &rarr;</span>
-            </div>
-
-            <div class="card" onclick="openModal()">
-                <div class="card-icon">🎨</div>
-                <h3>Painting & Decor</h3>
-                <p>Interior wall painting, texture design, waterproofing, and exterior house painting.</p>
-                <span class="card-link">Book Service &rarr;</span>
-            </div>
-
-            <div class="card" onclick="openModal()">
-                <div class="card-icon">🪑</div>
-                <h3>Furniture & Carpenter</h3>
-                <p>Custom furniture making, door hinge repair, bed assembling & woodwork.</p>
-                <span class="card-link">Book Service &rarr;</span>
-            </div>
-
-            <div class="card" onclick="openModal()">
-                <div class="card-icon">🧹</div>
-                <h3>Home Maid & Cleaning</h3>
-                <p>Deep home cleaning, kitchen sanitization, sofa cleaning & regular maid assistance.</p>
-                <span class="card-link">Book Service &rarr;</span>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2026 GharKam.com (Pune). All rights reserved. Made with clean design & white space.</p>
+    <!-- Footer -->
+    <footer class="text-center py-4 text-blue-200 text-xs bg-black/20">
+        &copy; 2026 Gharkam.com | Pune City
     </footer>
 
-    <!-- Modal for Email OTP Login -->
-    <div class="modal" id="authModal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeModal()">&times;</button>
-            <div id="step1">
-                <h3>Login / Sign Up</h3>
-                <p>Enter your email to receive a secure OTP.</p>
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="userEmail" placeholder="name@example.com">
-                </div>
-                <button class="btn-full" onclick="sendOtp()">Send OTP</button>
-            </div>
-
-            <div id="step2" class="otp-section">
-                <h3>Verify OTP</h3>
-                <p>Enter the 4-digit code sent to <span id="displayEmail" style="font-weight:600; color:var(--primary-dark);"></span></p>
-                <div class="form-group">
-                    <label>Enter OTP (Mock: 1234)</label>
-                    <input type="text" id="otpInput" placeholder="1 2 3 4" maxlength="4">
-                </div>
-                <button class="btn-full" onclick="verifyOtp()">Verify & Continue</button>
-            </div>
-        </div>
-    </div>
-
+    <!-- Logic Script -->
     <script>
-        const modal = document.getElementById('authModal');
-        const step1 = document.getElementById('step1');
-        const step2 = document.getElementById('step2');
+        let currentRole = 'customer'; 
+        let isSignupMode = true;      
+        let userLocationAllowed = false;
+        let generatedOTP = null;
+        let pendingUserData = null;
 
-        function openModal() {
-            modal.style.display = 'flex';
+        window.onload = function() {
+            requestUserLocation();
+            updateFormUI();
+        };
+
+        function requestUserLocation() {
+            const statusBadge = document.getElementById('location-status');
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        userLocationAllowed = true;
+                        statusBadge.innerText = "📍 Pune Verified";
+                        statusBadge.className = "text-xs bg-green-500 text-white px-3 py-1.5 rounded-full font-semibold shadow-inner";
+                    },
+                    (error) => {
+                        userLocationAllowed = false;
+                        statusBadge.innerText = "⚠️ Location Needed!";
+                        statusBadge.className = "text-xs bg-red-500 text-white px-3 py-1.5 rounded-full font-semibold shadow-inner";
+                    }
+                );
+            }
         }
 
-        function closeModal() {
-            modal.style.display = 'none';
-            step1.style.display = 'block';
-            step2.style.display = 'none';
-            document.getElementById('userEmail').value = '';
-            document.getElementById('otpInput').value = '';
+        function setRole(role) {
+            currentRole = role;
+            const tabC = document.getElementById('tabCustomer');
+            const tabW = document.getElementById('tabWorker');
+
+            if (role === 'customer') {
+                tabC.className = "flex-1 py-2 text-sm font-bold rounded-lg bg-blue-600 text-white transition";
+                tabW.className = "flex-1 py-2 text-sm font-bold rounded-lg text-gray-700 transition";
+            } else {
+                tabW.className = "flex-1 py-2 text-sm font-bold rounded-lg bg-yellow-500 text-gray-900 transition";
+                tabC.className = "flex-1 py-2 text-sm font-bold rounded-lg text-gray-700 transition";
+            }
+            updateFormUI();
         }
 
-        function sendOtp() {
-            const email = document.getElementById('userEmail').value;
-            if(!email || !email.includes('@')) {
-                alert('Krupaya valid email address taka.');
+        function toggleMode() {
+            isSignupMode = !isSignupMode;
+            document.getElementById('successMsg').classList.add('hidden');
+            document.getElementById('otpContainer').classList.add('hidden');
+            updateFormUI();
+        }
+
+        function updateFormUI() {
+            const title = document.getElementById('formTitle');
+            const sub = document.getElementById('formSub');
+            const btn = document.getElementById('submitBtn');
+            const toggleTxt = document.getElementById('toggleText');
+            const workTypeContainer = document.getElementById('workTypeContainer');
+
+            let roleName = currentRole === 'customer' ? 'Customer' : 'Worker';
+
+            if (isSignupMode && currentRole === 'worker') {
+                workTypeContainer.classList.remove('hidden');
+            } else {
+                workTypeContainer.classList.add('hidden');
+            }
+
+            if (isSignupMode) {
+                title.innerText = roleName + " Signup";
+                sub.innerText = "Create your account to get started";
+                btn.innerText = "Send OTP & Register";
+                btn.className = currentRole === 'customer' ? "w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-lg transition" : "w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 rounded-xl shadow-lg transition";
+                toggleTxt.innerHTML = `Already have an account? <a href="#" onclick="toggleMode()" class="text-blue-600 font-bold hover:underline">Sign In</a>`;
+            } else {
+                title.innerText = roleName + " Sign In";
+                sub.innerText = "Welcome back! Please login to your account";
+                btn.innerText = "Sign In";
+                btn.className = currentRole === 'customer' ? "w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-lg transition" : "w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 rounded-xl shadow-lg transition";
+                toggleTxt.innerHTML = `Don't have an account? <a href="#" onclick="toggleMode()" class="text-blue-600 font-bold hover:underline">Sign Up</a>`;
+            }
+        }
+
+        function handleAuth(event) {
+            event.preventDefault();
+
+            if (!userLocationAllowed) {
+                alert("Krupaya location access allow kara!");
+                requestUserLocation();
                 return;
             }
-            document.getElementById('displayEmail').innerText = email;
-            step1.style.display = 'none';
-            step2.style.display = 'block';
-        }
 
-        function verifyOtp() {
-            const otp = document.getElementById('otpInput').value;
-            if(otp === '1234' || otp.length === 4) {
-                alert('Login Successful! Welcome to GharKam Pune.');
-                closeModal();
+            let mobile = document.getElementById('mobile').value;
+            let email = document.getElementById('email').value;
+            let password = document.getElementById('password').value;
+
+            if (isSignupMode) {
+                if (password.length < 6) {
+                    alert("Password kamit kami 6 characters cha asala pahije!");
+                    return;
+                }
+
+                if (localStorage.getItem('gharkam_user_' + mobile)) {
+                    alert("Ha mobile number already registered ahe!");
+                    return;
+                }
+
+                let selectedWorkType = (currentRole === 'worker') ? document.getElementById('workType').value : null;
+
+                // Temporary data save kara verification sathi
+                pendingUserData = { 
+                    mobile, email, password, role: currentRole, balance: 50, 
+                    workType: selectedWorkType 
+                };
+
+                // Generate 6 Digit OTP
+                generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+                // EmailJS dware OTP Email var pathva
+                sendEmailOTP(email, generatedOTP);
+
             } else {
-                alert('Chukicha OTP ahe. Krupaya "1234" taka.');
+                let savedUserJson = localStorage.getItem('gharkam_user_' + mobile);
+                
+                if (savedUserJson) {
+                    let savedUser = JSON.parse(savedUserJson);
+                    
+                    if (savedUser.password === password) {
+                        if (savedUser.role === currentRole) {
+                            localStorage.setItem('current_user_session', JSON.stringify(savedUser));
+                            
+                            alert("Login successful!");
+                            if (currentRole === 'customer') {
+                                window.location.href = "customer.html";
+                            } else {
+                                window.location.href = "worker.html";
+                            }
+                        } else {
+                            alert("Ha mobile number " + savedUser.role + " mhanun registered ahe!");
+                        }
+                    } else {
+                        alert("चुकीचा पासवर्ड! (Wrong Password)");
+                    }
+                } else {
+                    alert("Account सापडले नाही! कृपया आधी Sign Up करा.");
+                }
             }
         }
 
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                closeModal();
+        function sendEmailOTP(email, otp) {
+            // Service ID & Template ID EmailJS Dashboard madhun milel
+            const serviceID = 'YOUR_SERVICE_ID';
+            const templateID = 'YOUR_TEMPLATE_ID';
+
+            const templateParams = {
+                to_email: email,
+                otp_code: otp
+            };
+
+            // EmailJS API call
+            emailjs.send(serviceID, templateID, templateParams)
+                .then(() => {
+                    alert("OTP tumchya Email var pathavla ahe. Krupaya check kara!");
+                    document.getElementById('otpContainer').classList.remove('hidden');
+                    document.getElementById('submitBtn').classList.add('hidden');
+                }, (err) => {
+                    alert("Email pathavnyat adchan ali. Standard OTP test Mode Active!");
+                    console.log("OTP (Testing purpose):", otp);
+                    document.getElementById('otpContainer').classList.remove('hidden');
+                    document.getElementById('submitBtn').classList.add('hidden');
+                });
+        }
+
+        function verifyOTPAndRegister() {
+            let userEnteredOTP = document.getElementById('otpInput').value;
+
+            if (userEnteredOTP === generatedOTP) {
+                // OTP verified! Registration finalize kara
+                localStorage.setItem('gharkam_user_' + pendingUserData.mobile, JSON.stringify(pendingUserData));
+
+                document.getElementById('successMsg').innerText = "🎉 Email verified & Account created! Now Sign In.";
+                document.getElementById('successMsg').classList.remove('hidden');
+                document.getElementById('authForm').reset();
+                document.getElementById('otpContainer').classList.add('hidden');
+                document.getElementById('submitBtn').classList.remove('hidden');
+
+                setTimeout(() => {
+                    toggleMode();
+                }, 2000);
+            } else {
+                alert("चुकीचा OTP! Krupaya punha prayatna kara.");
             }
         }
     </script>
